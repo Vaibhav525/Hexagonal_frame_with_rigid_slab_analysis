@@ -119,7 +119,7 @@ end
    
 %%STEP 8: Assembling total stiffness matrix
 N=DOF_counter-1;     %K_TS size
-P=Count_Pj+3;           %UnrestrainedDOF+ Floor_DOFs size
+p=Count_Pj+3;           %UnrestrainedDOF+ Floor_DOFs size
 K_TS=zeros(N,N);
 
 %Defining rigid body transformation matrix ,C matrix 
@@ -138,4 +138,49 @@ for i=1:length(Members)
     k_g=this_member.get_global_K();  %Member global stiffness matrix
     K_g_star=C'*(k_g*C);        %Rigid body slab transformation
     K_TS(Association,Association)=K_TS(Association,Association) +K_g_star; %Assembling                           %Assembly
+end
+
+%%STEP 9: Forming P and U vector
+P=zeros(N,1);   %Nodal Force vector
+U=zeros(N,1);    %Nodal Disp vector
+for i=1:length(Nodes)
+    Association=Nodes(i).get_Association();
+    Nodal_Disp=Nodes(i).get_Disp();
+    Nodal_Force=Nodes(i).get_Load();
+    P(Association)=P(Association)+Nodal_Force;
+    U(Association)=U(Association)+Nodal_Disp; 
+end
+   
+
+%%STEP 10: Partitioning K_TS ,P and U vector
+
+Kpp=K_TS(1:p,1:p);
+Kpx=K_TS(1:p,p+1:end);
+Kxp=K_TS(p+1:end,1:p);
+Kxx=K_TS(p+1:end,p+1:end);
+
+Pp=P(1:p);
+Ux=U(p+1:end);
+
+
+%%STEP 11: Solving P-U relation using choleski inverse
+% """Solving force-displacement equations
+%     [Kpp]{Up}+[Kpx]{Ux}={Pp}
+%     [Kxp]{Up}+[Kxx]{Ux}={Px}
+% 
+%     {Up}=[Kpp]^(-1){[Pp]-[Kpx][Ux]}     #Unknown forces 
+%     {Px}=[Kxp]{Up}+[Kxx]{Ux}            #Unknown Reactions
+% """
+
+Up=Inverse_matrix_using_Cholesky(Kpp)*(Pp-Kpx*Ux);
+Px=Kxp*Up+Kxx*Ux;
+U=[Up;Ux];
+P=[Pp;Px];
+%%STEP 12: Updating Nodes with calculated values
+for i=1:length(Nodes)
+    Association=Nodes(i).get_Association();
+    Nodal_Disp=Nodes(i).get_Disp();
+    Nodal_Force=Nodes(i).get_Load();
+    P(Association)=P(Association)+Nodal_Force;
+    U(Association)=U(Association)+Nodal_Disp; 
 end
