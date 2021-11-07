@@ -63,7 +63,6 @@ end
     DOF_counter=1;
     %Next numbering Master Floor DOFs
     Master_node=Master_node.set_Association([1;2;3;-1;-1;-1]); %Only two translation and one rotation taken
-    Master_Node_DOFs=[1;2;3];
     DOF_counter=DOF_counter+3;
     
     %Then numbering unrestrained and unslaved DOFs
@@ -134,8 +133,8 @@ C(8,12)=xj;
 
 for i=1:length(Members)
     this_member=Members(i);
-    Association=this_member.get_association();
+    Association=this_member.get_association()
     k_g=this_member.get_global_K();  %Member global stiffness matrix
     K_g_star=C'*(k_g*C);        %Rigid body slab transformation
-    K_TS(Association,Association)=K_TS(Association,Association) +K_g_star; %Assembling                           %Assembly
+    K_TS=K_TS(Association,Association) +K_g_star; %Assembling                           %Assembly
 end

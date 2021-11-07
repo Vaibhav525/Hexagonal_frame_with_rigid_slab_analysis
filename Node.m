@@ -1,4 +1,4 @@
-classdef Node
+classdef Node < handle
 %    """Node
 %         -id= node id
 %         -Pos: [x,y] Coordinate Position
@@ -13,15 +13,15 @@ classdef Node
   
               id    (1,1) int64
               Pos   (3,1) double
-              Disp_vec  (6,1) double =[0.0;0.0;0.0;0.0;0.0;0.0]
-              Restrain  (6,1) int64  =[0;0;0;0;0;0] %0 for unrestrained DOF, 1 for restrained DOF
-              Load      (6,1) double =[0.0;0.0;0.0;0.0;0.0;0.0]
-              Association (6,1) int64 =[-1;-1;-1;-1;-1;-1]
-
+              Disp_vec  (6,1) double 
+              Restrain  (6,1) int64   %0 for unrestrained DOF, 1 for restrained DOF
+              Load      (6,1) double 
+              Association (6,1) int64 
+              Slave     (6,1) int64  %0 for free, 1 for slaved
    end
 
    methods (Access = public)
-       function obj = Node(myid,myPos,myDisp_vec,myResrain,myLoad, myAssociation)
+       function obj = Node(myid,myPos,myDisp_vec,myResrain,myLoad, myAssociation,mySlave)
        arguments
        myid     (1,1) int64=0
        myPos    (3,1) double=[0.0;0.0;0.0]
@@ -29,6 +29,7 @@ classdef Node
        myResrain    (6,1) int64=[0;0;0;0;0;0]
        myLoad       (6,1) double=[0.0;0.0;0.0;0.0;0.0;0.0]
        myAssociation (6,1) int64=[-1;-1;-1;-1;-1;-1]
+       mySlave     (6,1) int64 =[0;0;0;0;0;0]
        end
        obj.id=myid;
        obj.Pos=myPos;
@@ -36,7 +37,7 @@ classdef Node
        obj.Restrain=myResrain;
        obj.Load=myLoad;
        obj.Association=myAssociation;
-      
+       obj.Slave=mySlave;
        end
 
 
@@ -79,12 +80,23 @@ classdef Node
        function out=get_restrain(obj)
            out=obj.Restrain;
        end
+           function obj=set_slaved_DOF(obj,Slaved_DOF)
+           arguments
+           obj (1,1) Node
+           Slaved_DOF (6,1) int64 
+           end
+           obj.Slave=Slaved_DOF;
+       end
+       function out=get_slaved_DOF(obj)
+           out=obj.Slave;
+
+       end
        function obj=set_Association(obj,association)
            arguments
            obj  (1,1) Node
            association (6,1) int64
            end
-           obj.Disp_vec=association;
+           obj.Association=association;
        end
        function out=get_Association(obj)
            out=obj.Association;
