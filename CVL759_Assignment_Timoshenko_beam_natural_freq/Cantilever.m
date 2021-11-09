@@ -46,14 +46,14 @@ for i=1:length(w_l)
         A_matrix=[1 0 1 0;
                   0 r1*(r1*r1+a+c) 0 r2*(-r2*r2+a+c);
                   (r1*r1-d)*r1*sinh(r1*L) (r1*r1-d)*r1*cosh(r1*L) (r2*r2+d)*r2*sin(r2*L) (-r2*r2-d)*r2*cos(r2*L);
-                  (r1*r1+a)*cosh(r1*L) (r1*r1+a)*sinh(r1*L) (-r2*r2+a)*cos(r2*L) (-r2*r2+a)*sin(r1*L)];
+                  (r1*r1+a)*cosh(r1*L) (r1*r1+a)*sinh(r1*L) (-r2*r2+a)*cos(r2*L) (-r2*r2+a)*sin(r2*L)];
     else
         r1=sqrt(0.5*(d-sqrt(Delta)));
         r2=sqrt(0.5*(d+sqrt(Delta)));
         A_matrix=[1 0 1 0;
                   0 r1*(-r1*r1+a+c) 0 r2*(-r2*r2+a+c);
                   (r1*r1+d)*r1*sin(r1*L) (-r1*r1-d)*r1*cos(r1*L) (r2*r2+d)*r2*sin(r2*L) (-r2*r2-d)*r2*cos(r2*L);
-                  (-r1*r1+a)*cos(r1*L) (-r1*r1+a)*sin(r1*L) (-r2*r2+a)*cos(r2*L) (-r2*r2+a)*sin(r1*L)];
+                  (-r1*r1+a)*cos(r1*L) (-r1*r1+a)*sin(r1*L) (-r2*r2+a)*cos(r2*L) (-r2*r2+a)*sin(r2*L)];
     end
 
     %Calculate det(A_matrix)=0
