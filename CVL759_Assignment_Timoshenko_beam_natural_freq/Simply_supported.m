@@ -15,11 +15,15 @@ format long g   %For output formatting
 
 %STEP2: Applying Boundary conditions
 %For w<root(GkA/rho.I)
-%X(x)=P1 coshr1x + P2 sinhr1x + P3 cosr2x + P4 sinr2x
-%T(t)=ACoswt
+%X(x)=P1 cosh(r1x) + P2 sinh(r1x) + P3 cos(r2x) + P4 sin(r2x)
+%T(t)=ACoswt+BSinwt
 
-%For simply supported P1=P3=0
-%P2 and P4 are given by
+%For w>root(GkA/rho.I)
+%X(x)=P1 cos(r1x) + P2 sin(r1x) + P3 cos(r2x) + P4 sin(r2x)
+%T(t)=ACoswt+BSinwt
+
+%For simply supported P1=P3=0 for w!=0
+%P2 and P4 are non-zero
 
 %Take series of w values
 w_l=[0:0.1:90000]';
@@ -36,7 +40,9 @@ for i=1:length(w_l)
     e=a*b;
 
     Delta= d*d-4*e;
-    %Calculate r1 and r2 for assumed w
+    %Calculate r1 and r2 for assumed w, and form the A_matrix for given
+    %boundary condition
+   
     if w<sqrt(k*G*A/(rho*I))
         r1=sqrt(0.5*(-d+sqrt(Delta)));
         r2=sqrt(0.5*(d+sqrt(Delta)));
@@ -53,7 +59,7 @@ for i=1:length(w_l)
     Res(i)=Det; %Add the value for graph to results
     if(Det*Det_prev<0 && counter<6)
 
-        %If Det(A_matrix) changes sign then this must be a root
+        %If Det(A_matrix) changes sign then at this w this must be a root
 
         disp(w);        %Display this natural frequency
         counter=counter+1;  %Display only first 5 natural frequencies

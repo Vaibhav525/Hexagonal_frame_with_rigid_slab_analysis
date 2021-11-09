@@ -1,4 +1,4 @@
-%To calculate natural frequency of Timoshenko beam for Cantilever case
+%To calculate natural frequency of Timoshenko beam for Fix-Fixcase
 %STEP 1: Input geometrical and physical properties of beam
 E=2.1e11;   %Pa
 G=8.1e10;   %Pa
@@ -21,6 +21,7 @@ format long g   %For output formatting
 %For w>root(GkA/rho.I)
 %X(x)=P1 cos(r1x) + P2 sin(r1x) + P3 cos(r2x) + P4 sin(r2x)
 %T(t)=ACoswt+BSinwt
+
 
 %Take series of w values
 w_l=[0:0.1:90000]';
@@ -45,15 +46,16 @@ for i=1:length(w_l)
         r2=sqrt(0.5*(d+sqrt(Delta)));
         A_matrix=[1 0 1 0;
                   0 r1*(r1*r1+a+c) 0 r2*(-r2*r2+a+c);
-                  (r1*r1-d)*r1*sinh(r1*L) (r1*r1-d)*r1*cosh(r1*L) (r2*r2+d)*r2*sin(r2*L) (-r2*r2-d)*r2*cos(r2*L);
-                  (r1*r1+a)*cosh(r1*L) (r1*r1+a)*sinh(r1*L) (-r2*r2+a)*cos(r2*L) (-r2*r2+a)*sin(r1*L)];
+                  cosh(r1*L) sinh(r1*L) cos(r2*L) sin(r2*L);
+                  r1*(r1*r1+a+c)*sinh(r1*L) r1*(r1*r1+a+c)*cosh(r1*L) r2*(r2*r2-a-c)*sin(r2*L) r2*(-r2*r2+a+c)*cos(r2*L)];
+
     else
         r1=sqrt(0.5*(d-sqrt(Delta)));
         r2=sqrt(0.5*(d+sqrt(Delta)));
         A_matrix=[1 0 1 0;
                   0 r1*(-r1*r1+a+c) 0 r2*(-r2*r2+a+c);
-                  (r1*r1+d)*r1*sin(r1*L) (-r1*r1-d)*r1*cos(r1*L) (r2*r2+d)*r2*sin(r2*L) (-r2*r2-d)*r2*cos(r2*L);
-                  (-r1*r1+a)*cos(r1*L) (-r1*r1+a)*sin(r1*L) (-r2*r2+a)*cos(r2*L) (-r2*r2+a)*sin(r1*L)];
+                  cos(r1*L) sin(r1*L) cos(r2*L) sin(r2*L);
+                  r1*(r1*r1-a-c)*sin(r1*L) r1*(-r1*r1+a+c)*cos(r1*L) r2*(r2*r2-a-c)*sin(r2*L) r2*(-r2*r2+a+c)*cos(r2*L)];
     end
 
     %Calculate det(A_matrix)=0
