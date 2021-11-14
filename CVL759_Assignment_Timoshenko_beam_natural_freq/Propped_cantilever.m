@@ -54,7 +54,7 @@ for i=1:length(w_l)
         A_matrix=[1 0 1 0;
                   0 r1*(-r1*r1+a+c) 0 r2*(-r2*r2+a+c);
                   cos(r1*L) sin(r1*L) cos(r2*L) sin(r2*L);
-                  -r1*r1*cosh(r1*L) -r1*r1*sinh(r1*L) -r2*r2*cos(r2*L) -r2*r2*sin(r2*L)];
+                  -r1*r1*cos(r1*L) -r1*r1*sin(r1*L) -r2*r2*cos(r2*L) -r2*r2*sin(r2*L)];
         
     end
 
