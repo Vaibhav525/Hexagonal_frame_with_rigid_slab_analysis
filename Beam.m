@@ -129,10 +129,11 @@ classdef Beam <handle
                 Association=[obj.N1.get_Association; obj.N2.get_Association];
             end
             function f=get_internal_force(obj)
-                Local_Disp=obj.T'*U;
+                Local_Disp=obj.T'*obj.get_Disp();
                 %Get member internal force vector
                 f=obj.get_local_K()*Local_Disp;
             end
+           
         end
 
 end

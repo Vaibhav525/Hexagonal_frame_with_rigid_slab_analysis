@@ -18,7 +18,7 @@ waitfor(app_columnrop);
 Column_props=[H; E; G; Area; Ixx; Iyy; Izz];
 
 
-%%STEP 3: Defining Members and Nodes
+%%STEP 3: Defining Members(as pair of nodes) and Nodes
 Elements=[1 2; 2 3; 3 4; 4 5;5 6;6 1;1 7; 2 8; 3 9; 4 10; 5 11; 6 12];
     %Element(i,:) contains [Node1 Node2] of ith elements
 Nodes=[];
@@ -47,7 +47,7 @@ end
     
 
 %%STEP 5: Applying Nodal Loads
-Nodes(1).set_Load([10;0;0;0;0;0]);
+Nodes(1).set_Load([10000;0;0;0;0;0]);
 
 %%STEP 6: Applying support conditions
 for i=7:12
@@ -62,7 +62,7 @@ end
     end
     DOF_counter=1;
     %Next numbering Master Floor DOFs
-    Master_node=Master_node.set_Association([1;2;3;-1;-1;-1]); %Only two translation and one rotation taken
+    Master_node=Master_node.set_Association([1;2;-1;-1;-1;3]); %Only two translation[ux,uy] and one rotation(uz) taken
     Master_Node_DOFs=[1;2;3];
     DOF_counter=DOF_counter+3;
     
@@ -119,10 +119,11 @@ end
    
 %%STEP 8: Assembling total stiffness matrix
 N=DOF_counter-1;     %K_TS size
-p=Count_Pj+3;           %UnrestrainedDOF+ Floor_DOFs size
+p=Count_Pj+3;        %UnrestrainedDOF+ Floor_DOFs size
 K_TS=zeros(N,N);
 
 %Defining rigid body transformation matrix ,C matrix 
+%P=C*P_star
 Pos_Master=Master_node.get_pos();
 xj=Pos_Master(1);
 yj=Pos_Master(2);
@@ -132,55 +133,110 @@ C(7,12)=-yj;
 C(2,6)=xj;
 C(8,12)=xj;
 
+C_nodal=C([1:6],[1:6]);     %Nodal Transformation matrix
+
 for i=1:length(Members)
     this_member=Members(i);
     Association=this_member.get_association();
     k_g=this_member.get_global_K();  %Member global stiffness matrix
-    K_g_star=C'*(k_g*C);        %Rigid body slab transformation
-    K_TS(Association,Association)=K_TS(Association,Association) +K_g_star; %Assembling                           %Assembly
+    K_g_star=C'*(k_g*C);            %Rigid body slab transformation
+    K_TS(Association,Association)=K_TS(Association,Association) +K_g_star; %Assembling                           
 end
 
-%%STEP 9: Forming P and U vector
-P=zeros(N,1);   %Nodal Force vector
-U=zeros(N,1);    %Nodal Disp vector
+%%STEP 9: Forming P* and U* vector
+P_star=zeros(N,1);   %Nodal Force vector
+U_star=zeros(N,1);   %Nodal Disp vector
 for i=1:length(Nodes)
     Association=Nodes(i).get_Association();
     Nodal_Disp=Nodes(i).get_Disp();
     Nodal_Force=Nodes(i).get_Load();
-    P(Association)=P(Association)+Nodal_Force;
-    U(Association)=U(Association)+Nodal_Disp; 
+    P_star(Association)=P_star(Association)+C_nodal'*Nodal_Force;    
+    U_star(Association)=U_star(Association)+C_nodal'*Nodal_Disp; 
 end
    
 
-%%STEP 10: Partitioning K_TS ,P and U vector
+%%STEP 10: Partitioning K_TS ,P* and U* vector
 
 Kpp=K_TS(1:p,1:p);
 Kpx=K_TS(1:p,p+1:end);
 Kxp=K_TS(p+1:end,1:p);
 Kxx=K_TS(p+1:end,p+1:end);
 
-Pp=P(1:p);
-Ux=U(p+1:end);
+Pp_star=P_star(1:p);
+Ux_star=U_star(p+1:end);
 
 
-%%STEP 11: Solving P-U relation using choleski inverse
+%%STEP 11: Solving P*-U* relation using choleski inverse
 % """Solving force-displacement equations
-%     [Kpp]{Up}+[Kpx]{Ux}={Pp}
-%     [Kxp]{Up}+[Kxx]{Ux}={Px}
+%     [Kpp]{Up*}+[Kpx]{Ux*}={Pp*}
+%     [Kxp]{Up*}+[Kxx]{Ux*}={Px*}
 % 
-%     {Up}=[Kpp]^(-1){[Pp]-[Kpx][Ux]}     #Unknown forces 
+%     {Up*}=[Kpp]^(-1){[Pp*]-[Kpx][Ux*]}     #Unknown forces 
 %     {Px}=[Kxp]{Up}+[Kxx]{Ux}            #Unknown Reactions
 % """
 
-Up=Inverse_matrix_using_Cholesky(Kpp)*(Pp-Kpx*Ux);
-Px=Kxp*Up+Kxx*Ux;
-U=[Up;Ux];
-P=[Pp;Px];
+Up_star=Inverse_matrix_using_Cholesky(Kpp)*(Pp_star-Kpx*Ux_star);
+Px_star=Kxp*Up_star+Kxx*Ux_star;
+U_star=[Up_star;Ux_star];
+P_star=[Pp_star;Px_star];
+
 %%STEP 12: Updating Nodes with calculated values
+    %First Master slab node
+Master_node.set_Disp([U_star(1);U_star(2);0;0;0;U_star(3)]);
+    %Now other nodes
 for i=1:length(Nodes)
     Association=Nodes(i).get_Association();
+    Nodal_Disp=Nodes(i).set_Disp(C_nodal*U_star(Association));
+    Nodal_Force=Nodes(i).set_Load(C_nodal*P_star(Association));
+end
+
+%%STEP 13: Printing output results to file
+out_file=fopen('output.txt','w');
+
+%First Nodal displacements
+fprintf(out_file,"\n||NODAL DISPLACEMENTS||\n");
+fprintf(out_file,"\nNode\t\t Ux(m)\t\t\tUy(m)\t\t\tUz(m)\t\t\tTheta_x(rad)\tTheta_y(rad)\tTheta_z(rad)\n");
+fprintf(out_file,"0[Slab] ");
+fprintf(out_file,"%12.6f\t",Master_node.get_Disp());
+fprintf(out_file,"\n");
+for i=1:length(Nodes)
     Nodal_Disp=Nodes(i).get_Disp();
+    fprintf(out_file,string(i)+"\t\t");
+    fprintf(out_file,"%12.6f\t",Nodal_Disp);
+    fprintf(out_file,"\n");
+end
+
+%Then Member end forces
+fprintf(out_file,"\n\n||MEMBER FORCES||\n");
+fprintf(out_file,"\nMember\tNode\t  Fx(N)\t\t\tFy(N)\t\t\tFz(N)\t\t\tMx(Nm)\t\t\tMy(Nm)\t\t\tMz(Nm)\n");
+fprintf(out_file,"\n");
+for i=1:length(Members)
+    Mem_force_vec=Members(i).get_internal_force();
+    Mem_nodes=Members(i).get_nodes();
+    fprintf(out_file,string(i)+"\t\t"+string(Mem_nodes(1).get_ID())+"\t");
+    fprintf(out_file,"%12.6f\t",Mem_force_vec([1:6]));
+    fprintf(out_file,"\n");
+    fprintf(out_file,"\t\t"+string(Mem_nodes(2).get_ID())+"\t");
+    fprintf(out_file,"%12.6f\t",Mem_force_vec([7:12]));
+    fprintf(out_file,"\n");
+end
+
+%Then Reactions 
+fprintf(out_file,"\n\n||Reactions||\n");
+fprintf(out_file,"Node\t\tFx(N)\t\t\tFy(N)\t\t\tFz(N)\t\t\tMx(Nm)\t\t\tMy(Nm)\t\t\tMz(Nm)\n");
+fprintf(out_file,"\n");
+for i=1:length(Nodes)
     Nodal_Force=Nodes(i).get_Load();
-    P(Association)=P(Association)+Nodal_Force;
-    U(Association)=U(Association)+Nodal_Disp; 
+    Nodal_Restr=Nodes(i).get_restrain();
+    if(sum(Nodal_Restr)~=0)
+    fprintf(out_file,string(i)+"\t\t");
+    for j=1:length(Nodal_Restr)
+        if(Nodal_Restr(j)==1)
+        fprintf(out_file,"%12.6f\t",Nodal_Force(j));
+        else
+        fprintf(out_file,"\t\t\t\t");
+        end
+    end
+    fprintf(out_file,"\n");
+    end
 end
