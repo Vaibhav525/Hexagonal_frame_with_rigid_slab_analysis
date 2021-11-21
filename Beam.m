@@ -123,6 +123,10 @@ classdef Beam <handle
                 %Get member force vector
                 Nodes=[obj.N1; obj.N2];
             end
+            function out=get_C(obj)
+                %Get member force vector
+                out=[obj.N1.get_C() zeros(6,6);zeros(6,6) obj.N2.get_C()];
+            end
             function Association=get_association(obj)
              
                 %Get member force vector

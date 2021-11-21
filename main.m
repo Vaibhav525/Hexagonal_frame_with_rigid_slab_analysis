@@ -18,7 +18,7 @@ waitfor(app_columnrop);
 Column_props=[H; E; G; Area; Ixx; Iyy; Izz];
 
 
-%%STEP 3: Defining Members(as pair of nodes) and Nodes
+%%STEP 3: Defining Nodes and Members(as pair of nodes) 
 Elements=[1 2; 2 3; 3 4; 4 5;5 6;6 1;1 7; 2 8; 3 9; 4 10; 5 11; 6 12];
     %Element(i,:) contains [Node1 Node2] of ith elements
 Nodes=[];
@@ -59,11 +59,12 @@ end
     Enslaved_DOFs=[1;1;0;0;0;1];    %x,y translation and thetaz
     for i=1:6
     Nodes(i).set_slaved_DOF(Enslaved_DOFs);   %Enslaved x,y, translation and z rotation
+    Nodes(i).set_master_pos(Master_node.get_pos());     %Set Master_node as master of ith node
     end
     DOF_counter=1;
     %Next numbering Master Floor DOFs
     Master_node=Master_node.set_Association([1;2;-1;-1;-1;3]); %Only two translation[ux,uy] and one rotation(uz) taken
-    Master_Node_DOFs=[1;2;3];
+    Master_Node_DOFs=[1;2;-1;-1;-1;3];
     DOF_counter=DOF_counter+3;
     
     %Then numbering unrestrained and unslaved DOFs
@@ -122,23 +123,12 @@ N=DOF_counter-1;     %K_TS size
 p=Count_Pj+3;        %UnrestrainedDOF+ Floor_DOFs size
 K_TS=zeros(N,N);
 
-%Defining rigid body transformation matrix ,C matrix 
-%P=C*P_star
-Pos_Master=Master_node.get_pos();
-xj=Pos_Master(1);
-yj=Pos_Master(2);
-C=eye(12,12);
-C(1,6)=-yj;
-C(7,12)=-yj;
-C(2,6)=xj;
-C(8,12)=xj;
-
-C_nodal=C([1:6],[1:6]);     %Nodal Transformation matrix
 
 for i=1:length(Members)
     this_member=Members(i);
     Association=this_member.get_association();
     k_g=this_member.get_global_K();  %Member global stiffness matrix
+    C=this_member.get_C();
     K_g_star=C'*(k_g*C);            %Rigid body slab transformation
     K_TS(Association,Association)=K_TS(Association,Association) +K_g_star; %Assembling                           
 end
@@ -150,6 +140,7 @@ for i=1:length(Nodes)
     Association=Nodes(i).get_Association();
     Nodal_Disp=Nodes(i).get_Disp();
     Nodal_Force=Nodes(i).get_Load();
+    C_nodal=Nodes(i).get_C();
     P_star(Association)=P_star(Association)+C_nodal'*Nodal_Force;    
     U_star(Association)=U_star(Association)+C_nodal'*Nodal_Disp; 
 end
@@ -186,6 +177,7 @@ Master_node.set_Disp([U_star(1);U_star(2);0;0;0;U_star(3)]);
     %Now other nodes
 for i=1:length(Nodes)
     Association=Nodes(i).get_Association();
+    C_nodal=Nodes(i).get_C();
     Nodal_Disp=Nodes(i).set_Disp(C_nodal*U_star(Association));
     Nodal_Force=Nodes(i).set_Load(C_nodal*P_star(Association));
 end

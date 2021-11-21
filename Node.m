@@ -17,6 +17,8 @@ classdef Node < handle
               Restrain  (6,1) int64   %0 for unrestrained DOF, 1 for restrained DOF
               Load      (6,1) double 
               Association (6,1) int64 
+              is_slave  (1,1) logical
+              master_pos   (3,1) double  %Master Node position
               Slave     (6,1) int64  %0 for free, 1 for slaved
    end
 
@@ -38,6 +40,8 @@ classdef Node < handle
        obj.Load=myLoad;
        obj.Association=myAssociation;
        obj.Slave=mySlave;
+       obj.master_pos=myPos;
+       obj.is_slave=false;
        end
 
 
@@ -49,7 +53,19 @@ classdef Node < handle
            obj.Pos=Pos;
        end
        function out=get_pos(obj)
-           out=obj.Pos;
+            out=obj.Pos;
+       end
+       function set_master_pos(obj,Master_pos) 
+           arguments
+           obj  (1,1) Node
+           Master_pos (3,1) double
+           end
+           obj.is_slave=true;
+           obj.master_pos=Master_pos;
+       end
+
+       function out=get_master_pos(obj) 
+           out=obj.master_pos;
        end
        function out=get_ID(obj)
            out=obj.id;
@@ -110,6 +126,17 @@ classdef Node < handle
            Displace=obj.Disp_vec;
            out=prev_pos+scale.*Displace;
        end
-       
+       function out=get_C(obj)
+           %Returns C matrix if slaved, I if unslaved
+           out=eye(6,6);
+           pos_node=obj.get_pos();
+           if(obj.is_slave==true)
+                pos_master=obj.master_pos();
+                yj=pos_master(2)-pos_node(2);
+                xj=pos_master(1)-pos_node(1);
+                out(1,6)=-1*yj;
+                out(2,6)=xj;
+           end
+       end
    end
 end
