@@ -1,0 +1,112 @@
+11:55:39	Initializing STAAD Engine
+11:55:39	Run stream set up is complete.
+11:55:39	Initialize license libraries.
+11:55:39	License libraries initialized.
+11:55:39	Starting license(s) for A & D engine.
+11:55:41	License Status: Ok
+11:55:41	License information set up is complete.
+****************************************************************************
+*                            START OF ANALYSIS                             *
+****************************************************************************
+* Initiating Analysis At Sun Nov 21 11:55:41 2021
+                          PROGRAM: STAAD.Pro
+                          VERSION: 22.07.00.160
+                11:55:41:71  ENTERING STAAD
+                11:55:41:74  USING 64 BIT STAAD ENGINE
+                11:55:41:74  ENTERING MAINN
+                11:55:41:74  START JOB INFORMATION
+                11:55:41:74  INPUT WIDTH 79
+                11:55:41:74  UNIT METER KN
+                11:55:41:74  JOINT COORDINATES
+                11:55:41:74  ENTERING JOINTC
+                11:55:41:74  JOINTC NEWJ                                 400000
+                11:55:41:76  MAX NODE NO.                                    13
+                11:55:41:76  MEMBER INCIDENCES
+                11:55:41:76  DEFINE MATERIAL START
+                11:55:41:76  MEMBER PROPERTY INDIA
+                11:55:42:38    ++ Finished Reading Member Properties ...
+                11:55:42:38  CONSTANTS
+                11:55:42:38  SUPPORTS
+                11:55:42:38  ENTERING SUPPORT
+                11:55:42:38  SLAVE FX FY MZ MASTER
+                11:55:42:38  DUPLICATE ELEMENT CHECK
+                11:55:42:38  CHECKING STRUCTURAL INTEGRITY
+                11:55:42:38  CHECK UNCONNECTED JOINTS AND
+                11:55:42:38  CALCULATE MAX JOINT CONNECTIVITY
+                11:55:42:40  MAX CONNECTIVITY                                 4
+                11:55:42:40  ENTERING SUPPORT
+                11:55:42:40  NRJOLD                                           0
+                11:55:42:40  SUPPORT NOLD                                     0
+                11:55:42:40  SUPPORT N                                       42
+                11:55:42:41  LOAD 1 LOADTYPE LIVE
+                11:55:42:41  BEFORE LOADPR
+                11:55:42:41  REOPEN AS DIR                                    0
+                11:55:42:41  ENTER LOADPR
+                11:55:42:43  PERFORM ANALYSIS PRIN
+                11:55:42:43  pdel iter                                        0
+                11:55:42:43  MAXIMUM E =                           2.899986E+04
+                11:55:42:43  MINIMUM E =                           2.899986E+04
+                11:55:42:43  SLAVEP LAST CALL
+                11:55:42:43  ICT                                             24
+                11:55:42:43  MBW DOF BAND=                                    1
+                11:55:42:43  NUMBER OF PRIMARY CASES                          1
+                11:55:42:43  NUMBER OF CASES                                 52
+                11:55:42:43  #OF CASES W/ELEM INMEMORY                       52
+                11:55:42:43  Using 64-bit analysis engine
+                11:55:42:43  BEFORE SOLVER 1
+                11:55:42:44  Start Input for Next Load Case
+                11:55:42:44  case no=    1 seq. no=   1 idynl= 0
+                11:55:42:44  MASSSET                                          0
+                11:55:42:44  LOADEND ISLAVE                                   0
+                11:55:42:44  NVPREV                                           0
+                11:55:42:44  AMAXNON                               6.561680E-01
+                11:55:42:44  IRECSIZL=                                     4000
+                11:55:42:44  MTX BLOCKSIZE=                                  24
+                11:55:42:44  MI=                                             24
+                11:55:42:44  NORECL=                                          1
+                11:55:42:44  NORECL1=                                         1
+                11:55:42:44  IWORD=                                       32000
+                11:55:42:44  JRECSIZE=                                     4000
+                11:55:42:46  IWORDJ=                                      32000
+                11:55:42:46  IBYTE=                                           4
+                11:55:42:46  JOINTS=                                         13
+                11:55:42:46  MEMBERS=                                        12
+                11:55:42:46  PLATES =                                         0
+                11:55:42:46  SOLIDS =                                         0
+                11:55:42:46  NO. OF EQUATIONS=                               24
+                11:55:42:46  idyn=                                            0
+                11:55:42:46  ipd=                                             0
+                11:55:42:46  icablanl=                                        0
+                11:55:42:46  ++ Processing Element Stiffness Matrix.
+                11:55:42:46  NV1                                              1
+                11:55:42:58  ++ Calculating Element Forces & Reactions.
+                11:55:42:60  COMBINATION CASES=                               0
+                11:55:42:60  MAX CM MEMORY (KILOWORDS)                       25
+                11:55:42:60  AFTER SOLVER 1
+                11:55:42:60  REOPEN AS SEQ                                    0
+                11:55:42:60  LOAD LIST 1
+                11:55:42:60  FINISH
+                11:55:42:60  All Commands FINISHed
+                11:55:42:60  DATASAVE for SPRO GUI
+                11:55:42:61  ++ Creating Displacement File (DSP)...
+                11:55:42:61  ++ Creating Reaction File (REA)...
+                11:55:42:61  ++ Creating Section Force File (BEN)...
+                11:55:42:63  ENTERING SECTNM110 IQ=                          12
+                11:55:42:63               NSEC=                              11
+                11:55:42:63             ISECTN=                               0
+                11:55:42:65  SECTNM110 DO 925
+                11:55:42:66  ++ Creating Section Force File (BMD)...
+                11:55:42:68  ++ Creating Section Displace File (SEC)...
+                11:55:42:68  ENTERING ENVLP1 ITYP1=                          -5
+                11:55:42:68  SECT DISPLACE
+                11:55:42:69  ++ Creating Section Displace File (SCN)...
+                11:55:42:71  ALLOCATED CM MEMORY (KILOWORDS)             300000
+                11:55:42:71  MAX CM MEMORY (KILOWORDS)                       25
+                11:55:42:71  DBS LONG SEC NAME
+* End Of Analysis At Sun Nov 21 11:55:42 2021
+* CPU usage = 1.137000
+* STAAD Exit Code: 100, Warning Count: 4, Error Count: 0, Duration: 1.137
+1 4 0 1.137
+****************************************************************************
+*                            END OF ANALYSIS                               *
+****************************************************************************

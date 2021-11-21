@@ -1,0 +1,217 @@
+                                                                 PAGE NO.    1
+
+
+
+             ****************************************************        
+             *                                                  *        
+             *           STAAD.Pro CONNECT Edition/Academic     *        
+             *           Version  22.07.00.160                  *        
+             *           Proprietary Program of                 *        
+             *           Bentley Systems, Inc.                  *        
+             *           Date=    NOV 21, 2021                  *        
+             *           Time=    11:55:41                      *        
+             *                                                  *        
+             *  Licensed to: IIT, Delhi                         *        
+             ****************************************************        
+
+
+
+     1. STAAD SPACE TEST
+INPUT FILE: D:\Semester 7\CVL756\Staad_Analysis\TEST.STD
+     2. START JOB INFORMATION
+     3. ENGINEER DATE 21-NOV-21
+     4. END JOB INFORMATION
+     5. INPUT WIDTH 79
+     6. UNIT METER KN
+     7. JOINT COORDINATES
+     8. 1 -1 0 2; 2 -0.500001 0.866027 2; 3 0.500001 0.866027 2; 4 1 0 2
+     9. 5 0.500001 -0.866027 2; 6 -0.500001 -0.866027 2; 7 -1 0 0
+    10. 8 -0.500001 0.866027 0; 9 0.500001 0.866027 0; 10 1 0 0
+    11. 11 0.500001 -0.866027 0; 12 -0.500001 -0.866027 0; 13 0 0 2
+    12. MEMBER INCIDENCES
+    13. 1 1 2; 2 2 3; 3 3 4; 4 4 5; 5 5 6; 6 6 1; 7 1 7; 8 2 8; 9 3 9; 10 4 10
+    14. 11 5 11; 12 6 12
+    15. DEFINE MATERIAL START
+    16. ISOTROPIC STEEL
+    17. E 1.99947E+08
+    18. POISSON 0.3
+    19. DENSITY 76.8191
+    20. ALPHA 6.5E-06
+    21. DAMP 0.03
+    22. G 7.7221E+07
+    23. TYPE STEEL
+    24. STRENGTH RY 1.5 RT 1.2
+    25. END DEFINE MATERIAL
+    26. MEMBER PROPERTY INDIAN
+    27. 1 TO 12 TABLE ST ISHB400
+    28. CONSTANTS
+    29. MATERIAL STEEL ALL
+    30. SUPPORTS
+    31. 7 TO 12 FIXED
+    32. SLAVE FX FY MZ MASTER 13 JOINT 1 TO 6
+   **WARNING- JOINT NO.    13 NOT CONNECTED. OK, IF PART OF MASTER/SLAVE.
+    33. LOAD 1 LOADTYPE LIVE  TITLE LL
+    34. JOINT LOAD
+    35. 1 FX 10
+    36. PERFORM ANALYSIS PRINT ALL
+     TEST                                                     -- PAGE NO.    2
+        
+
+
+
+            P R O B L E M   S T A T I S T I C S
+            -----------------------------------
+
+     NUMBER OF JOINTS         13  NUMBER OF MEMBERS      12
+     NUMBER OF PLATES          0  NUMBER OF SOLIDS        0
+     NUMBER OF SURFACES        0  NUMBER OF SUPPORTS      6
+
+           Using 64-bit analysis engine.
+ 
+           SOLVER USED IS THE IN-CORE ADVANCED MATH SOLVER
+ 
+   TOTAL      PRIMARY LOAD CASES =     1, TOTAL DEGREES OF FREEDOM =      24
+   TOTAL LOAD COMBINATION  CASES =     0  SO FAR.
+
+     TEST                                                     -- PAGE NO.    3
+        
+
+
+   LOADING     1  LOADTYPE LIVE  TITLE LL                                     
+   -----------
+
+
+   JOINT LOAD - UNIT KN   METE
+
+   JOINT   FORCE-X   FORCE-Y     FORCE-Z     MOM-X     MOM-Y     MOM-Z
+
+       1     10.00      0.00        0.00      0.00      0.00      0.00
+*WARNING- ZERO STIFFNESS IN DIRECTION 3 AT JOINT     13 EQN.NO.      21
+          LOADS APPLIED OR DISTRIBUTED HERE FROM ELEMENTS WILL BE IGNORED.
+          THIS MAY BE DUE TO ALL MEMBERS AT THIS JOINT BEING RELEASED OR
+          EFFECTIVELY RELEASED IN THIS DIRECTION.
+*WARNING- ZERO STIFFNESS IN DIRECTION 4 AT JOINT     13 EQN.NO.      22
+*WARNING- ZERO STIFFNESS IN DIRECTION 5 AT JOINT     13 EQN.NO.      23
+
+
+FOR LOADING -     1
+APPLIED JOINT EQUIVALENT LOADS
+ JOINT   FORCE-X     FORCE-Y     FORCE-Z      MOM-X       MOM-Y       MOM-Z
+    13 1.00000E+01 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+
+          STATIC LOAD/REACTION/EQUILIBRIUM SUMMARY FOR CASE NO.     1
+          LOADTYPE LIVE  TITLE LL                                     
+
+
+           CENTER OF FORCE BASED ON X FORCES ONLY (METE).
+         (FORCES IN NON-GLOBAL DIRECTIONS WILL INVALIDATE RESULTS)
+
+                        X =  0.000000000E+00
+                        Y =  0.000000000E+00
+                        Z =  0.199999999E+01
+TOTAL APPLIED LOAD     1
+
+   ***TOTAL APPLIED LOAD ( KN   METE ) SUMMARY (LOADING     1 )
+       SUMMATION FORCE-X =          10.00
+       SUMMATION FORCE-Y =           0.00
+       SUMMATION FORCE-Z =           0.00
+
+      SUMMATION OF MOMENTS AROUND THE ORIGIN-
+      MX=           0.00  MY=          20.00  MZ=           0.00
+
+TOTAL REACTION LOAD    1
+
+   ***TOTAL REACTION LOAD( KN   METE ) SUMMARY (LOADING     1 )
+       SUMMATION FORCE-X =         -10.00
+       SUMMATION FORCE-Y =           0.00
+       SUMMATION FORCE-Z =          -0.00
+
+      SUMMATION OF MOMENTS AROUND THE ORIGIN-
+      MX=           0.00  MY=         -20.00  MZ=          -0.00
+
+     TEST                                                     -- PAGE NO.    4
+        
+
+   MAXIMUM DISPLACEMENTS (  CM  /RADIANS) (LOADING      1)
+             MAXIMUMS    AT NODE
+      X =  2.82625E-02      13
+      Y = -3.46454E-17       1
+      Z =  3.63908E-04       1
+      RX= -7.61749E-06       6
+      RY=  1.05838E-04       4
+      RZ=  3.46110E-19      13
+
+
+
+   EXTERNAL AND INTERNAL JOINT LOAD SUMMARY ( KN   METE )-
+
+   JT     EXT FX/   EXT FY/   EXT FZ/    EXT MX/    EXT MY/    EXT MZ/
+          INT FX    INT FY    INT FZ     INT MX     INT MY     INT MZ
+
+                                                                      SUPPORT=1
+     1      0.00      0.00      0.00       0.00       0.00       0.00
+           -1.38      0.00      0.00      -0.00       0.00       0.00  000000
+
+     2      0.00      0.00      0.00       0.00       0.00       0.00
+           -1.81     -0.40     -0.00       0.00      -0.00      -0.00  000000
+
+     3      0.00      0.00      0.00       0.00       0.00       0.00
+           -1.81      0.40      0.00      -0.00      -0.00       0.00  000000
+
+     4      0.00      0.00      0.00       0.00       0.00       0.00
+           -1.38     -0.00     -0.00      -0.00       0.00       0.00  000000
+
+     5      0.00      0.00      0.00       0.00       0.00       0.00
+           -1.81     -0.40     -0.00       0.00      -0.00       0.00  000000
+
+     6      0.00      0.00      0.00       0.00       0.00       0.00
+           -1.81      0.40     -0.00      -0.00      -0.00       0.00  000000
+
+     7      0.00      0.00      0.00       0.00       0.00       0.00
+            1.38     -0.00      3.59       0.00       1.67       0.00  111111
+
+     8      0.00      0.00      0.00       0.00       0.00       0.00
+            1.81      0.40      0.85      -0.19       1.95       0.00  111111
+
+     9      0.00      0.00      0.00       0.00       0.00       0.00
+            1.81     -0.40     -0.85       0.19       1.95       0.00  111111
+
+    10      0.00      0.00      0.00       0.00       0.00       0.00
+            1.38      0.00     -3.59      -0.00       1.67       0.00  111111
+
+    11      0.00      0.00      0.00       0.00       0.00       0.00
+            1.81      0.40     -0.85      -0.19       1.95       0.00  111111
+
+    12      0.00      0.00      0.00       0.00       0.00       0.00
+            1.81     -0.40      0.85       0.19       1.95       0.00  111111
+
+    13     10.00      0.00      0.00       0.00       0.00       0.00
+            0.00      0.00      0.00       0.00       0.00       0.00  000000
+
+
+
+   ************ END OF DATA FROM INTERNAL STORAGE ************
+
+
+    37. LOAD LIST 1
+    38. FINISH
+     TEST                                                     -- PAGE NO.    5
+        
+
+
+             *********** END OF THE STAAD.Pro RUN ***********         
+
+               **** DATE= NOV 21,2021   TIME= 11:55:42 ****
+
+         ************************************************************
+         *   For technical assistance on STAAD.Pro, please visit    *
+         *   http://www.bentley.com/en/support/                     *
+         *                                                          *
+         *   Details about additional assistance from               *
+         *   Bentley and Partners can be found at program menu      *
+         *   Help->Technical Support                                *
+         *                                                          *
+         *           Copyright (c) Bentley Systems, Inc.            *
+         *                http://www.bentley.com                    *
+         ************************************************************
+                                                                     
