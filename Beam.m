@@ -51,7 +51,6 @@ classdef Beam <handle
             Cx=(N2_pos(1)-N1_pos(1))/obj.L;
             Cy=(N2_pos(2)-N1_pos(2))/obj.L;
             Cz=(N2_pos(3)-N1_pos(3))/obj.L;
-           
             Cxy=sqrt(Cx*Cx+Cy*Cy);
             if(Cxy~=0.0)
                 cos_beta=Cx/Cxy;
@@ -69,7 +68,7 @@ classdef Beam <handle
                 end     
             end
             cos_alpha=cos(alpha*pi/180);
-            sin_alpha=cos(alpha*pi/180);
+            sin_alpha=sin(alpha*pi/180);
             R_beta=[cos_beta sin_beta 0;-sin_beta cos_beta 0; 0 0 1];
             R_gamma=[cos_gamma 0 sin_gamma;0 1 0;-sin_gamma 0 cos_gamma]; 
             R_alpha=[1 0 0; 0 cos_alpha sin_alpha; 0 -sin_alpha cos_alpha];
