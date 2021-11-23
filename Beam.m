@@ -3,8 +3,6 @@ classdef Beam <handle
 %        
 %         -E,G,A,Ixx,Iyy,Izz,L  (Material and Geometrical properties)
 %         -K[12x12] (Local stiffness matrix)
-%         -R [3x3] orientation matrix [x';y',z'] direction cosines from
-%         global [x y z] #Need consideration for principal axes 
 %         -N1, N2 :Nodes of element"""
 
         properties(SetAccess=private)
@@ -60,11 +58,11 @@ classdef Beam <handle
             else
                 cos_beta=1;
                 sin_beta=0;
-                sin_gamma=0;
+                cos_gamma=0;
                 if(Cz>0)
-                cos_gamma=1;
+                sin_gamma=1;
                 else
-                cos_gamma=-1;
+                sin_gamma=-1;
                 end     
             end
             cos_alpha=cos(alpha*pi/180);

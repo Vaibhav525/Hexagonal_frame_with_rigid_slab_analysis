@@ -47,7 +47,7 @@ end
     
 
 %%STEP 5: Applying Nodal Loads
-Nodes(1).set_Load([10000;0;0;0;0;0]);
+Nodes(1).set_Load([10000;0;0;0;0;0]);   %10000N = 10KN
 
 %%STEP 6: Applying support conditions
 for i=7:12
@@ -187,12 +187,13 @@ out_file=fopen('output.txt','w');
 
 %First Nodal displacements
 fprintf(out_file,"\n||NODAL DISPLACEMENTS||\n");
-fprintf(out_file,"\nNode\t\t Ux(m)\t\t\tUy(m)\t\t\tUz(m)\t\t\tTheta_x(rad)\tTheta_y(rad)\tTheta_z(rad)\n");
+fprintf(out_file,"\nNode\t\t Ux(mm)\t\t\tUy(mm)\t\t\tUz(mm)\t\t\tTheta_x(rad)\tTheta_y(rad)\tTheta_z(rad)\n");
 fprintf(out_file,"0[Slab] ");
 fprintf(out_file,"%12.6f\t",Master_node.get_Disp());
 fprintf(out_file,"\n");
 for i=1:length(Nodes)
     Nodal_Disp=Nodes(i).get_Disp();
+    Nodal_Disp(1:3)=Nodal_Disp(1:3)*1000; %Changing to mm
     fprintf(out_file,string(i)+"\t\t");
     fprintf(out_file,"%12.6f\t",Nodal_Disp);
     fprintf(out_file,"\n");
@@ -200,22 +201,22 @@ end
 
 %Then Member end forces
 fprintf(out_file,"\n\n||MEMBER FORCES||\n");
-fprintf(out_file,"\nMember\tNode\t  Fx(N)\t\t\tFy(N)\t\t\tFz(N)\t\t\tMx(Nm)\t\t\tMy(Nm)\t\t\tMz(Nm)\n");
+fprintf(out_file,"\nMember\tNode\t  Fx(kN)\t\t\tFy(kN)\t\t\tFz(kN)\t\t\tMx(kNm)\t\t\tMy(kNm)\t\t\tMz(kNm)\n");
 fprintf(out_file,"\n");
 for i=1:length(Members)
     Mem_force_vec=Members(i).get_internal_force();
     Mem_nodes=Members(i).get_nodes();
     fprintf(out_file,string(i)+"\t\t"+string(Mem_nodes(1).get_ID())+"\t");
-    fprintf(out_file,"%12.6f\t",Mem_force_vec([1:6]));
+    fprintf(out_file,"%12.6f\t",Mem_force_vec([1:6])*0.001);
     fprintf(out_file,"\n");
     fprintf(out_file,"\t\t"+string(Mem_nodes(2).get_ID())+"\t");
-    fprintf(out_file,"%12.6f\t",Mem_force_vec([7:12]));
+    fprintf(out_file,"%12.6f\t",Mem_force_vec([7:12])*0.001);
     fprintf(out_file,"\n");
 end
 
 %Then Reactions 
 fprintf(out_file,"\n\n||Reactions||\n");
-fprintf(out_file,"Node\t\tFx(N)\t\t\tFy(N)\t\t\tFz(N)\t\t\tMx(Nm)\t\t\tMy(Nm)\t\t\tMz(Nm)\n");
+fprintf(out_file,"Node\t\tFx(kN)\t\t\tFy(kN)\t\t\tFz(kN)\t\t\tMx(kNm)\t\t\tMy(kNm)\t\t\tMz(kNm)\n");
 fprintf(out_file,"\n");
 for i=1:length(Nodes)
     Nodal_Force=Nodes(i).get_Load();
@@ -224,7 +225,7 @@ for i=1:length(Nodes)
     fprintf(out_file,string(i)+"\t\t");
     for j=1:length(Nodal_Restr)
         if(Nodal_Restr(j)==1)
-        fprintf(out_file,"%12.6f\t",Nodal_Force(j));
+        fprintf(out_file,"%12.6f\t",Nodal_Force(j)*0.001);
         else
         fprintf(out_file,"\t\t\t\t");
         end
