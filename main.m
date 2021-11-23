@@ -163,7 +163,7 @@ Ux_star=U_star(p+1:end);
 %     [Kxp]{Up*}+[Kxx]{Ux*}={Px*}
 % 
 %     {Up*}=[Kpp]^(-1){[Pp*]-[Kpx][Ux*]}     #Unknown forces 
-%     {Px}=[Kxp]{Up}+[Kxx]{Ux}            #Unknown Reactions
+%     {Px*}=[Kxp]{Up*}+[Kxx]{Ux*}            #Unknown Reactions
 % """
 
 Up_star=Inverse_matrix_using_Cholesky(Kpp)*(Pp_star-Kpx*Ux_star);
@@ -178,8 +178,8 @@ Master_node.set_Disp([U_star(1);U_star(2);0;0;0;U_star(3)]);
 for i=1:length(Nodes)
     Association=Nodes(i).get_Association();
     C_nodal=Nodes(i).get_C();
-    Nodal_Disp=Nodes(i).set_Disp(C_nodal*U_star(Association));
-    Nodal_Force=Nodes(i).set_Load(C_nodal*P_star(Association));
+    Nodes(i).set_Disp(C_nodal*U_star(Association));
+    Nodes(i).set_Load(C_nodal*P_star(Association));
 end
 
 %%STEP 13: Printing output results to file
@@ -189,7 +189,9 @@ out_file=fopen('output.txt','w');
 fprintf(out_file,"\n||NODAL DISPLACEMENTS||\n");
 fprintf(out_file,"\nNode\t\t Ux(mm)\t\t\tUy(mm)\t\t\tUz(mm)\t\t\tTheta_x(rad)\tTheta_y(rad)\tTheta_z(rad)\n");
 fprintf(out_file,"0[Slab] ");
-fprintf(out_file,"%12.6f\t",Master_node.get_Disp());
+Master_node_disp=Master_node.get_Disp();
+Master_node_disp(1:3)=Master_node_disp(1:3)*1000;
+fprintf(out_file,"%12.6f\t",Master_node_disp);
 fprintf(out_file,"\n");
 for i=1:length(Nodes)
     Nodal_Disp=Nodes(i).get_Disp();

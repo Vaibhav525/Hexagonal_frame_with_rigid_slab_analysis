@@ -132,8 +132,8 @@ classdef Node < handle
            pos_node=obj.get_pos();
            if(obj.is_slave==true)
                 pos_master=obj.master_pos();
-                yj=pos_master(2)-pos_node(2);
-                xj=pos_master(1)-pos_node(1);
+                yj=pos_node(2)-pos_master(2);
+                xj=pos_node(1)-pos_master(1);
                 out(1,6)=-1*yj;
                 out(2,6)=xj;
            end
