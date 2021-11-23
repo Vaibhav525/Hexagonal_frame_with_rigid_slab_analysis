@@ -123,14 +123,23 @@ N=DOF_counter-1;     %K_TS size
 p=Count_Pj+3;        %UnrestrainedDOF+ Floor_DOFs size
 K_TS=zeros(N,N);
 
-
+Debug1=zeros(12,12,12);
+Debug2=zeros(57,57,12);
 for i=1:length(Members)
     this_member=Members(i);
     Association=this_member.get_association();
     k_g=this_member.get_global_K();  %Member global stiffness matrix
     C=this_member.get_C();
-    K_g_star=C'*(k_g*C);            %Rigid body slab transformation
-    K_TS(Association,Association)=K_TS(Association,Association) +K_g_star; %Assembling                           
+    K_g_star=C'*(k_g*C);           %Rigid body slab transformation
+    for p=1:length(K_g_star)
+        for q=1:length(K_g_star)
+            K_TS(Association(p),Association(q))=K_TS(Association(p),Association(q))+K_g_star(p,q);
+        end
+    end
+    Debug1(:,:,i)=K_g_star;
+    Debug2(:,:,i)=K_TS;
+    
+   
 end
 
 %%STEP 9: Forming P* and U* vector
