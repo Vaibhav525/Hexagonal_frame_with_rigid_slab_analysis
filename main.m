@@ -131,9 +131,9 @@ for i=1:length(Members)
     k_g=this_member.get_global_K();  %Member global stiffness matrix
     C=this_member.get_C();
     K_g_star=C'*(k_g*C);           %Rigid body slab transformation
-    for p=1:length(K_g_star)
-        for q=1:length(K_g_star)
-            K_TS(Association(p),Association(q))=K_TS(Association(p),Association(q))+K_g_star(p,q);
+    for m=1:length(K_g_star)
+        for n=1:length(K_g_star)
+            K_TS(Association(m),Association(n))=K_TS(Association(m),Association(n))+K_g_star(m,n);
         end
     end
     Debug1(:,:,i)=K_g_star;
@@ -191,7 +191,24 @@ for i=1:length(Nodes)
     Nodes(i).set_Load(C_nodal*P_star(Association));
 end
 
-%%STEP 13: Printing output results to file
+%%STEP 13: Force Equilibrium check
+Equib_Loads=zeros(6,1);
+Equib_Reactions=zeros(6,1);
+for i=1:length(Nodes)
+    Loads=Nodes(i).get_Load();
+    Restr=Nodes(i).get_restrain();
+    for j=1:length(Restr)
+        if(Restr(j)==1)
+        Equib_Reactions(j)=Equib_Reactions(j)+Loads(j);
+        else
+        Equib_Loads(j)=Equib_Loads(j)+Loads(j);
+        end
+    end
+end
+
+Equib_Loads;
+Equib_Reactions;
+%%STEP 14: Printing output results to file
 out_file=fopen('output.txt','w');
 
 %First Nodal displacements
