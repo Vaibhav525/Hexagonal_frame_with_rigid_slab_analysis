@@ -8,8 +8,8 @@
              *           Version  22.07.00.160                  *        
              *           Proprietary Program of                 *        
              *           Bentley Systems, Inc.                  *        
-             *           Date=    NOV 21, 2021                  *        
-             *           Time=    11:55:41                      *        
+             *           Date=    NOV 24, 2021                  *        
+             *           Time=    13: 8:54                      *        
              *                                                  *        
              *  Licensed to: IIT, Delhi                         *        
              ****************************************************        
@@ -17,7 +17,7 @@
 
 
      1. STAAD SPACE TEST
-INPUT FILE: D:\Semester 7\CVL756\Staad_Analysis\TEST.STD
+INPUT FILE: D:\Semester 7\CVL756\Prog_Assignment\Hexagonal_frame_with_rigid_slab_analysis\Staad_Analys.. .STD
      2. START JOB INFORMATION
      3. ENGINEER DATE 21-NOV-21
      4. END JOB INFORMATION
@@ -41,21 +41,30 @@ INPUT FILE: D:\Semester 7\CVL756\Staad_Analysis\TEST.STD
     22. G 7.7221E+07
     23. TYPE STEEL
     24. STRENGTH RY 1.5 RT 1.2
-    25. END DEFINE MATERIAL
-    26. MEMBER PROPERTY INDIAN
-    27. 1 TO 12 TABLE ST ISHB400
-    28. CONSTANTS
-    29. MATERIAL STEEL ALL
-    30. SUPPORTS
-    31. 7 TO 12 FIXED
-    32. SLAVE FX FY MZ MASTER 13 JOINT 1 TO 6
-   **WARNING- JOINT NO.    13 NOT CONNECTED. OK, IF PART OF MASTER/SLAVE.
-    33. LOAD 1 LOADTYPE LIVE  TITLE LL
-    34. JOINT LOAD
-    35. 1 FX 10
-    36. PERFORM ANALYSIS PRINT ALL
+    25. ISOTROPIC CONCRETE
+    26. E 2.17184E+07
+    27. POISSON 0.17
+    28. DENSITY 23.5615
+    29. ALPHA 5.5E-06
+    30. DAMP 0.05
+    31. G 9.28137E+06
+    32. TYPE CONCRETE
+    33. STRENGTH FCU 27578.9
+    34. END DEFINE MATERIAL
+    35. MEMBER PROPERTY
+    36. 1 TO 12 PRIS YD 0.1
+    37. CONSTANTS
+    38. MATERIAL STEEL ALL
      TEST                                                     -- PAGE NO.    2
         
+    39. SUPPORTS
+    40. 7 TO 12 FIXED
+    41. SLAVE FX FY MZ MASTER 13 JOINT 1 TO 6
+   **WARNING- JOINT NO.    13 NOT CONNECTED. OK, IF PART OF MASTER/SLAVE.
+    42. LOAD 1 LOADTYPE LIVE  TITLE LL
+    43. JOINT LOAD
+    44. 1 FX 10
+    45. PERFORM ANALYSIS PRINT ALL
 
 
 
@@ -124,22 +133,22 @@ APPLIED JOINT EQUIVALENT LOADS
    ***TOTAL REACTION LOAD( KN   METE ) SUMMARY (LOADING     1 )
        SUMMATION FORCE-X =         -10.00
        SUMMATION FORCE-Y =           0.00
-       SUMMATION FORCE-Z =          -0.00
+       SUMMATION FORCE-Z =           0.00
 
       SUMMATION OF MOMENTS AROUND THE ORIGIN-
-      MX=           0.00  MY=         -20.00  MZ=          -0.00
+      MX=          -0.00  MY=         -20.00  MZ=           0.00
 
      TEST                                                     -- PAGE NO.    4
         
 
    MAXIMUM DISPLACEMENTS (  CM  /RADIANS) (LOADING      1)
              MAXIMUMS    AT NODE
-      X =  2.82625E-02      13
-      Y = -3.46454E-17       1
-      Z =  3.63908E-04       1
-      RX= -7.61749E-06       6
-      RY=  1.05838E-04       4
-      RZ=  3.46110E-19      13
+      X =  1.48382E-01       1
+      Y = -1.93733E-15       4
+      Z =  3.81328E-04       1
+      RX= -1.42024E-04       6
+      RY=  5.09574E-04       4
+      RZ= -1.93512E-17       1
 
 
 
@@ -150,40 +159,40 @@ APPLIED JOINT EQUIVALENT LOADS
 
                                                                       SUPPORT=1
      1      0.00      0.00      0.00       0.00       0.00       0.00
-           -1.38      0.00      0.00      -0.00       0.00       0.00  000000
+           -1.43     -0.00      0.00       0.00      -0.00       0.00  000000
 
      2      0.00      0.00      0.00       0.00       0.00       0.00
-           -1.81     -0.40     -0.00       0.00      -0.00      -0.00  000000
+           -1.79     -0.21     -0.00       0.00      -0.00       0.00  000000
 
      3      0.00      0.00      0.00       0.00       0.00       0.00
-           -1.81      0.40      0.00      -0.00      -0.00       0.00  000000
+           -1.79      0.21      0.00      -0.00      -0.00       0.00  000000
 
      4      0.00      0.00      0.00       0.00       0.00       0.00
-           -1.38     -0.00     -0.00      -0.00       0.00       0.00  000000
+           -1.43      0.00      0.00       0.00      -0.00       0.00  000000
 
      5      0.00      0.00      0.00       0.00       0.00       0.00
-           -1.81     -0.40     -0.00       0.00      -0.00       0.00  000000
+           -1.79     -0.21      0.00      -0.00       0.00       0.00  000000
 
      6      0.00      0.00      0.00       0.00       0.00       0.00
-           -1.81      0.40     -0.00      -0.00      -0.00       0.00  000000
+           -1.79      0.21     -0.00      -0.00       0.00       0.00  000000
 
      7      0.00      0.00      0.00       0.00       0.00       0.00
-            1.38     -0.00      3.59       0.00       1.67       0.00  111111
+            1.43      0.00      2.99      -0.00       1.68      -0.00  111111
 
      8      0.00      0.00      0.00       0.00       0.00       0.00
-            1.81      0.40      0.85      -0.19       1.95       0.00  111111
+            1.79      0.21      1.50      -0.14       1.92      -0.00  111111
 
      9      0.00      0.00      0.00       0.00       0.00       0.00
-            1.81     -0.40     -0.85       0.19       1.95       0.00  111111
+            1.79     -0.21     -1.50       0.14       1.92      -0.00  111111
 
     10      0.00      0.00      0.00       0.00       0.00       0.00
-            1.38      0.00     -3.59      -0.00       1.67       0.00  111111
+            1.43     -0.00     -2.99       0.00       1.68      -0.00  111111
 
     11      0.00      0.00      0.00       0.00       0.00       0.00
-            1.81      0.40     -0.85      -0.19       1.95       0.00  111111
+            1.79      0.21     -1.50      -0.14       1.92      -0.00  111111
 
     12      0.00      0.00      0.00       0.00       0.00       0.00
-            1.81     -0.40      0.85       0.19       1.95       0.00  111111
+            1.79     -0.21      1.50       0.14       1.92      -0.00  111111
 
     13     10.00      0.00      0.00       0.00       0.00       0.00
             0.00      0.00      0.00       0.00       0.00       0.00  000000
@@ -193,15 +202,15 @@ APPLIED JOINT EQUIVALENT LOADS
    ************ END OF DATA FROM INTERNAL STORAGE ************
 
 
-    37. LOAD LIST 1
-    38. FINISH
+    46. LOAD LIST 1
+    47. FINISH
      TEST                                                     -- PAGE NO.    5
         
 
 
              *********** END OF THE STAAD.Pro RUN ***********         
 
-               **** DATE= NOV 21,2021   TIME= 11:55:42 ****
+               **** DATE= NOV 24,2021   TIME= 13: 8:55 ****
 
          ************************************************************
          *   For technical assistance on STAAD.Pro, please visit    *

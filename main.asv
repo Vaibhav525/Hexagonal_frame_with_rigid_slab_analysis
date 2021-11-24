@@ -47,22 +47,11 @@ end
     
 
 %%STEP 5: Applying Nodal Loads
-Nodes(1).set_Load([10;0;0;0;0;0]);   %10000N = 10KN
+Nodes(1).set_Load([10000;0;0;0;0;0]);   %10000N = 10KN
 
 %%STEP 6: Applying support conditions
 for i=7:12
     Nodes(i).set_restrains([1;1;1;1;1;1]);   %Fully fixed all 6 DOF restrained
-end
-
-Equib_Loads=zeros(6,1);
-for i=1:length(Nodes)
-    Loads=Nodes(i).get_Load();
-    Restr=Nodes(i).get_restrain();
-    for j=1:length(Restr)
-        if(Restr(j)~=1)
-        Equib_Loads(j)=Equib_Loads(j)+Loads(j);
-        end
-    end
 end
 
 %%STEP 7: Numbering DOFs
@@ -134,19 +123,21 @@ N=DOF_counter-1;     %K_TS size
 p=Count_Pj+3;        %UnrestrainedDOF+ Floor_DOFs size
 K_TS=zeros(N,N);
 
-
+Debug1=zeros(12,12,12);
+Debug2=zeros(57,57,12);
 for i=1:length(Members)
     this_member=Members(i);
     Association=this_member.get_association();
     k_g=this_member.get_global_K();  %Member global stiffness matrix
     C=this_member.get_C();
     K_g_star=C'*(k_g*C);           %Rigid body slab transformation
-    for m=1:length(K_g_star)
-        for n=1:length(K_g_star)
-            K_TS(Association(m),Association(n))=K_TS(Association(m),Association(n))+K_g_star(m,n);
+    for p=1:length(K_g_star)
+        for q=1:length(K_g_star)
+            K_TS(Association(p),Association(q))=K_TS(Association(p),Association(q))+K_g_star(p,q);
         end
     end
-    
+    Debug1(:,:,i)=K_g_star;
+    Debug2(:,:,i)=K_TS;
     
    
 end
@@ -201,7 +192,7 @@ for i=1:length(Nodes)
 end
 
 %%STEP 13: Force Equilibrium check
-
+Equib_Loads=zeros(6,1);
 Equib_Reactions=zeros(6,1);
 for i=1:length(Nodes)
     Loads=Nodes(i).get_Load();
@@ -209,12 +200,12 @@ for i=1:length(Nodes)
     for j=1:length(Restr)
         if(Restr(j)==1)
         Equib_Reactions(j)=Equib_Reactions(j)+Loads(j);
+        else
+        Equib_Loads(j)=Equib_Loads(j)+Loads(j);
         end
     end
 end
 
-Equib_Loads;
-Equib_Reactions;
 %%STEP 14: Printing output results to file
 out_file=fopen('output.txt','w');
 
@@ -242,10 +233,10 @@ for i=1:length(Members)
     Mem_force_vec=Members(i).get_internal_force();
     Mem_nodes=Members(i).get_nodes();
     fprintf(out_file,string(i)+"\t\t"+string(Mem_nodes(1).get_ID())+"\t");
-    fprintf(out_file,"%12.6f\t",Mem_force_vec([1:6]));
+    fprintf(out_file,"%12.6f\t",Mem_force_vec([1:6])*0.001);
     fprintf(out_file,"\n");
     fprintf(out_file,"\t\t"+string(Mem_nodes(2).get_ID())+"\t");
-    fprintf(out_file,"%12.6f\t",Mem_force_vec([7:12]));
+    fprintf(out_file,"%12.6f\t",Mem_force_vec([7:12])*0.001);
     fprintf(out_file,"\n");
 end
 
@@ -260,7 +251,7 @@ for i=1:length(Nodes)
     fprintf(out_file,string(i)+"\t\t");
     for j=1:length(Nodal_Restr)
         if(Nodal_Restr(j)==1)
-        fprintf(out_file,"%12.6f\t",Nodal_Force(j));
+        fprintf(out_file,"%12.6f\t",Nodal_Force(j)*0.001);
         else
         fprintf(out_file,"\t\t\t\t");
         end

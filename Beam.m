@@ -87,7 +87,7 @@ classdef Beam <handle
                 EIzz_L2=obj.E*obj.Izz/(obj.L^2);
                 EIzz_L3=obj.E*obj.Izz/(obj.L^3);
                 
-                K_L=[EA_L      0       0       0       0       0       -1*EA_L      0      0       0       0       0;
+                K_L=0.001*[EA_L      0       0       0       0       0       -1*EA_L      0      0       0       0       0;
                      0      12*EIzz_L3 0       0       0    6*EIzz_L2      0   -12*EIzz_L3 0       0       0    6*EIzz_L2;
                      0         0    12*EIyy_L3 0    -6*EIyy_L2 0           0        0  -12*EIyy_L3 0    -6*EIyy_L2 0;
                      0         0       0     GJ_L      0       0           0        0      0    -1*GJ_L    0       0;

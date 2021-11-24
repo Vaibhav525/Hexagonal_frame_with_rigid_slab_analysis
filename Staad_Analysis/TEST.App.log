@@ -1,21 +1,21 @@
-11/21/2021 11:43:30	Reading UID database.
-11/21/2021 11:43:30	Start loading STAAD model.
-11/21/2021 11:43:30	Reading model file.
-11/21/2021 11:43:30	Reading model file is complete.
-11/21/2021 11:43:30	Processing support.
-11/21/2021 11:43:30	Processing springs.
-11/21/2021 11:43:30	Processing properties.
-11/21/2021 11:43:30	Processing physical properties.
-11/21/2021 11:43:30	Processing constants.
-11/21/2021 11:43:30	Processing surface constants.
-11/21/2021 11:43:30	Processing BETA constants.
-11/21/2021 11:43:30	Processing hidden analytical member loads.
-11/21/2021 11:43:30	Processing command list for member release.
-11/21/2021 11:43:30	Processing command list for member offset.
-11/21/2021 11:43:30	Processing command list for member specs (cracked).
-11/21/2021 11:43:30	Processing command list for member specs (axial).
-11/21/2021 11:43:30	Processing command list for element release.
-11/21/2021 11:43:30	Processing command list for element offset.
-11/21/2021 11:43:30	Processing command list for element plate stress directive.
-11/21/2021 11:43:30	End Processing command list.
-11/21/2021 11:43:30	End loading STAAD model.
+11/24/2021 12:31:11	Reading UID database.
+11/24/2021 12:31:11	Start loading STAAD model.
+11/24/2021 12:31:12	Reading model file.
+11/24/2021 12:31:13	Reading model file is complete.
+11/24/2021 12:31:13	Processing support.
+11/24/2021 12:31:13	Processing springs.
+11/24/2021 12:31:13	Processing properties.
+11/24/2021 12:31:13	Processing physical properties.
+11/24/2021 12:31:13	Processing constants.
+11/24/2021 12:31:13	Processing surface constants.
+11/24/2021 12:31:13	Processing BETA constants.
+11/24/2021 12:31:13	Processing hidden analytical member loads.
+11/24/2021 12:31:13	Processing command list for member release.
+11/24/2021 12:31:13	Processing command list for member offset.
+11/24/2021 12:31:13	Processing command list for member specs (cracked).
+11/24/2021 12:31:13	Processing command list for member specs (axial).
+11/24/2021 12:31:13	Processing command list for element release.
+11/24/2021 12:31:13	Processing command list for element offset.
+11/24/2021 12:31:13	Processing command list for element plate stress directive.
+11/24/2021 12:31:13	End Processing command list.
+11/24/2021 12:31:13	End loading STAAD model.
