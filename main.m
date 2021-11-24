@@ -8,7 +8,7 @@ waitfor(app_Layout);
 %L,H now contain Beam Length and Column Height, Node coordinate contains
 %coordinates for 12 Nodes
 
-%%STEP2: Take input for section geometry of beam and column
+%%STEP2: Tlake input for section geometry of beam and column
 %Executing beamprop
 app_beamprop=beamprop;
 waitfor(app_beamprop);
@@ -47,7 +47,7 @@ end
     
 
 %%STEP 5: Applying Nodal Loads
-Nodes(1).set_Load([10;0;0;0;0;0]);   %10000N = 10KN
+Nodes(1).set_Load([10000;0;0;0;0;0]);   %=10000 N
 
 %%STEP 6: Applying support conditions
 for i=7:12
@@ -134,7 +134,6 @@ N=DOF_counter-1;     %K_TS size
 p=Count_Pj+3;        %UnrestrainedDOF+ Floor_DOFs size
 K_TS=zeros(N,N);
 
-
 for i=1:length(Members)
     this_member=Members(i);
     Association=this_member.get_association();
@@ -146,9 +145,7 @@ for i=1:length(Members)
             K_TS(Association(m),Association(n))=K_TS(Association(m),Association(n))+K_g_star(m,n);
         end
     end
-    
-    
-   
+
 end
 
 %%STEP 9: Forming P* and U* vector
@@ -201,7 +198,6 @@ for i=1:length(Nodes)
 end
 
 %%STEP 13: Force Equilibrium check
-
 Equib_Reactions=zeros(6,1);
 for i=1:length(Nodes)
     Loads=Nodes(i).get_Load();
@@ -213,15 +209,13 @@ for i=1:length(Nodes)
     end
 end
 
-Equib_Loads;
-Equib_Reactions;
 %%STEP 14: Printing output results to file
 out_file=fopen('output.txt','w');
 
 %First Nodal displacements
 fprintf(out_file,"\n||NODAL DISPLACEMENTS||\n");
 fprintf(out_file,"\nNode\t\t Ux(mm)\t\t\tUy(mm)\t\t\tUz(mm)\t\t\tTheta_x(rad)\tTheta_y(rad)\tTheta_z(rad)\n");
-fprintf(out_file,"0[Slab] ");
+fprintf(out_file,"0[Slab]\t");
 Master_node_disp=Master_node.get_Disp();
 Master_node_disp(1:3)=Master_node_disp(1:3)*1000;
 fprintf(out_file,"%12.6f\t",Master_node_disp);
@@ -242,10 +236,10 @@ for i=1:length(Members)
     Mem_force_vec=Members(i).get_internal_force();
     Mem_nodes=Members(i).get_nodes();
     fprintf(out_file,string(i)+"\t\t"+string(Mem_nodes(1).get_ID())+"\t");
-    fprintf(out_file,"%12.6f\t",Mem_force_vec([1:6]));
+    fprintf(out_file,"%12.6f\t",Mem_force_vec([1:6])*0.001);
     fprintf(out_file,"\n");
     fprintf(out_file,"\t\t"+string(Mem_nodes(2).get_ID())+"\t");
-    fprintf(out_file,"%12.6f\t",Mem_force_vec([7:12]));
+    fprintf(out_file,"%12.6f\t",Mem_force_vec([7:12])*0.001);
     fprintf(out_file,"\n");
 end
 
@@ -260,7 +254,7 @@ for i=1:length(Nodes)
     fprintf(out_file,string(i)+"\t\t");
     for j=1:length(Nodal_Restr)
         if(Nodal_Restr(j)==1)
-        fprintf(out_file,"%12.6f\t",Nodal_Force(j));
+        fprintf(out_file,"%12.6f\t",Nodal_Force(j)*0.001);
         else
         fprintf(out_file,"\t\t\t\t");
         end

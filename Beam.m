@@ -23,8 +23,7 @@ classdef Beam <handle
             function obj =Beam(myN1,myN2,E,G,A,Ixx,Iyy,Izz,alpha)
             arguments
             myN1  (1,1) Node
-            myN2  (1,1) Node
-            %defaults of ISHB400
+            myN2  (1,1) Node         %defaults of ISHB400
             E    (1,1) double=2e11    %young's modulus N/m^2
             G    (1,1) double=0.769e11    %Shear Modulus N/m^2
             A    (1,1) double=0.00966    %Area of c/s m^2
@@ -87,7 +86,7 @@ classdef Beam <handle
                 EIzz_L2=obj.E*obj.Izz/(obj.L^2);
                 EIzz_L3=obj.E*obj.Izz/(obj.L^3);
                 
-                K_L=0.001*[EA_L      0       0       0       0       0       -1*EA_L      0      0       0       0       0;
+                K_L=[EA_L      0       0       0       0       0       -1*EA_L      0      0       0       0       0;
                      0      12*EIzz_L3 0       0       0    6*EIzz_L2      0   -12*EIzz_L3 0       0       0    6*EIzz_L2;
                      0         0    12*EIyy_L3 0    -6*EIyy_L2 0           0        0  -12*EIyy_L3 0    -6*EIyy_L2 0;
                      0         0       0     GJ_L      0       0           0        0      0    -1*GJ_L    0       0;
@@ -130,7 +129,7 @@ classdef Beam <handle
                 Association=[obj.N1.get_Association; obj.N2.get_Association];
             end
             function f=get_internal_force(obj)
-                Local_Disp=obj.T'*obj.get_Disp();
+                Local_Disp=obj.T*obj.get_Disp();
                 %Get member internal force vector
                 f=obj.get_local_K()*Local_Disp;
             end
