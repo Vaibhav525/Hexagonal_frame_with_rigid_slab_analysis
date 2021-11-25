@@ -47,7 +47,7 @@ end
     
 
 %%STEP 5: Applying Nodal Loads
-Nodes(1).set_Load([10000;0;0;0;0;0]);   %=10000 N
+Nodes(1).set_Load([10000;10000;0;0;0;0]);   %=10000 N
 
 %%STEP 6: Applying support conditions
 for i=7:12
@@ -56,13 +56,17 @@ end
 
 Equib_Loads=zeros(6,1);
 for i=1:length(Nodes)
+    Nod_Pos=Nodes(i).get_pos();
     Loads=Nodes(i).get_Load();
+    
     Restr=Nodes(i).get_restrain();
-    for j=1:length(Restr)
+    for j=1:6
         if(Restr(j)~=1)
         Equib_Loads(j)=Equib_Loads(j)+Loads(j);
-        end
+        end 
     end
+    Equib_Loads([4:6])=Equib_Loads([4:6])+cross(Nod_Pos,Loads([1:3]));
+   
 end
 
 %%STEP 7: Numbering DOFs
@@ -141,11 +145,13 @@ for i=1:length(Members)
     C=this_member.get_C();
     K_g_star=C'*(k_g*C);           %Rigid body slab transformation
     for m=1:length(K_g_star)
-        for n=1:length(K_g_star)
+        for n=m:length(K_g_star)  
             K_TS(Association(m),Association(n))=K_TS(Association(m),Association(n))+K_g_star(m,n);
+            if(m~=n)
+            K_TS(Association(n),Association(m))=K_TS(Association(n),Association(m))+K_g_star(m,n);
+            end
         end
-    end
-
+    end 
 end
 
 %%STEP 9: Forming P* and U* vector
@@ -200,13 +206,19 @@ end
 %%STEP 13: Force Equilibrium check
 Equib_Reactions=zeros(6,1);
 for i=1:length(Nodes)
+    Nod_Pos=Nodes(i).get_pos();
     Loads=Nodes(i).get_Load();
+    F=zeros(3,1);
     Restr=Nodes(i).get_restrain();
     for j=1:length(Restr)
         if(Restr(j)==1)
         Equib_Reactions(j)=Equib_Reactions(j)+Loads(j);
+        if(j<4)
+        F(j)=F(j)+Loads(j);
+        end
         end
     end
+    Equib_Reactions([4:6])=Equib_Reactions([4:6])+cross(Nod_Pos,F);
 end
 
 %%STEP 14: Printing output results to file
@@ -262,3 +274,13 @@ for i=1:length(Nodes)
     fprintf(out_file,"\n");
     end
 end
+
+%Then Equilibrium Check
+fprintf(out_file,"\n\n||Equilibrium Check||\n");
+fprintf(out_file,"L/C\t\t\t\t\tFx(kN)\t\t\tFy(kN)\t\t\tFz(kN)\t\t\tMx(kNm)\t\t\tMy(kNm)\t\t\tMz(kNm)\n");
+fprintf(out_file,"\nLoads\t\t\t");
+fprintf(out_file,"%12.6f\t",Equib_Loads*0.001);
+fprintf(out_file,"\nReactions\t\t");
+fprintf(out_file,"%12.6f\t",Equib_Reactions*0.001);
+fprintf(out_file,"\nDifference\t\t");
+fprintf(out_file,"%12.6f\t",(Equib_Loads+Equib_Reactions)*0.001);

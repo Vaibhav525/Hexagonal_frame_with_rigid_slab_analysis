@@ -9,7 +9,7 @@
              *           Proprietary Program of                 *        
              *           Bentley Systems, Inc.                  *        
              *           Date=    NOV 24, 2021                  *        
-             *           Time=    13: 8:54                      *        
+             *           Time=    23:14:44                      *        
              *                                                  *        
              *  Licensed to: IIT, Delhi                         *        
              ****************************************************        
@@ -26,52 +26,68 @@ INPUT FILE: D:\Semester 7\CVL756\Prog_Assignment\Hexagonal_frame_with_rigid_slab
      7. JOINT COORDINATES
      8. 1 -1 0 2; 2 -0.500001 0.866027 2; 3 0.500001 0.866027 2; 4 1 0 2
      9. 5 0.500001 -0.866027 2; 6 -0.500001 -0.866027 2; 7 -1 0 0
-    10. 8 -0.500001 0.866027 0; 9 0.500001 0.866027 0; 10 1 0 0
-    11. 11 0.500001 -0.866027 0; 12 -0.500001 -0.866027 0; 13 0 0 2
+    10. 8 -0.500001 0.866405 0; 9 0.500001 0.866027 0; 10 1 0 0
+    11. 11 0.500001 -0.866027 0; 12 -0.500001 -0.866027 0
     12. MEMBER INCIDENCES
     13. 1 1 2; 2 2 3; 3 3 4; 4 4 5; 5 5 6; 6 6 1; 7 1 7; 8 2 8; 9 3 9; 10 4 10
-    14. 11 5 11; 12 6 12
-    15. DEFINE MATERIAL START
-    16. ISOTROPIC STEEL
-    17. E 1.99947E+08
-    18. POISSON 0.3
-    19. DENSITY 76.8191
-    20. ALPHA 6.5E-06
-    21. DAMP 0.03
-    22. G 7.7221E+07
-    23. TYPE STEEL
-    24. STRENGTH RY 1.5 RT 1.2
-    25. ISOTROPIC CONCRETE
-    26. E 2.17184E+07
-    27. POISSON 0.17
-    28. DENSITY 23.5615
-    29. ALPHA 5.5E-06
-    30. DAMP 0.05
-    31. G 9.28137E+06
-    32. TYPE CONCRETE
-    33. STRENGTH FCU 27578.9
-    34. END DEFINE MATERIAL
-    35. MEMBER PROPERTY
-    36. 1 TO 12 PRIS YD 0.1
-    37. CONSTANTS
-    38. MATERIAL STEEL ALL
+    14. 11 5 11; 12 6 12; 13 1 3; 14 1 4; 15 1 5; 16 6 4; 17 6 3; 18 6 2; 19 5 3
+    15. 20 5 2; 21 4 2
+    16. DEFINE MATERIAL START
+    17. ISOTROPIC STEEL
+    18. E 1.99947E+08
+    19. POISSON 0.3
+    20. DENSITY 76.8191
+    21. ALPHA 6.5E-06
+    22. DAMP 0.03
+    23. G 7.7221E+07
+    24. TYPE STEEL
+    25. STRENGTH RY 1.5 RT 1.2
+    26. ISOTROPIC CONCRETE
+    27. E 2.17184E+07
+    28. POISSON 0.17
+    29. DENSITY 23.5615
+    30. ALPHA 5.5E-06
+    31. DAMP 0.05
+    32. G 9.28137E+06
+    33. TYPE CONCRETE
+    34. STRENGTH FCU 27578.9
+    35. ISOTROPIC HIGHE
+    36. E 1.99947E+19
+    37. POISSON 0.3
+    38. DENSITY 76.8191
      TEST                                                     -- PAGE NO.    2
         
-    39. SUPPORTS
-    40. 7 TO 12 FIXED
-    41. SLAVE FX FY MZ MASTER 13 JOINT 1 TO 6
-   **WARNING- JOINT NO.    13 NOT CONNECTED. OK, IF PART OF MASTER/SLAVE.
-    42. LOAD 1 LOADTYPE LIVE  TITLE LL
-    43. JOINT LOAD
-    44. 1 FX 10
-    45. PERFORM ANALYSIS PRINT ALL
+    39. ALPHA 6.5E-06
+    40. DAMP 0.03
+    41. G 7.7221E+07
+    42. END DEFINE MATERIAL
+    43. MEMBER PROPERTY INDIAN
+    44. 1 TO 12 TABLE ST ISHB400
+    45. MEMBER PROPERTY
+    46. 13 TO 21 PRIS YD 0.1
+    47. CONSTANTS
+    48. MATERIAL STEEL MEMB 1 TO 12
+    49. MATERIAL HIGHE MEMB 13 TO 21
+    50. SUPPORTS
+    51. 7 TO 12 FIXED
+    52. MEMBER TRUSS
+    53. 13 TO 21
+    54. LOAD 1 LOADTYPE LIVE  TITLE LL
+    55. JOINT LOAD
+    56. 1 FX 10
+    57. PERFORM ANALYSIS PRINT ALL
+
+  ** WARNING ** A STIFF MATERIAL WITH  1.000E+11 TIMES THE STIFFNESS OF STEEL
+                ENTERED. PLEASE CHECK.
+
+
 
 
 
             P R O B L E M   S T A T I S T I C S
             -----------------------------------
 
-     NUMBER OF JOINTS         13  NUMBER OF MEMBERS      12
+     NUMBER OF JOINTS         12  NUMBER OF MEMBERS      21
      NUMBER OF PLATES          0  NUMBER OF SOLIDS        0
      NUMBER OF SURFACES        0  NUMBER OF SUPPORTS      6
 
@@ -79,7 +95,7 @@ INPUT FILE: D:\Semester 7\CVL756\Prog_Assignment\Hexagonal_frame_with_rigid_slab
  
            SOLVER USED IS THE IN-CORE ADVANCED MATH SOLVER
  
-   TOTAL      PRIMARY LOAD CASES =     1, TOTAL DEGREES OF FREEDOM =      24
+   TOTAL      PRIMARY LOAD CASES =     1, TOTAL DEGREES OF FREEDOM =      36
    TOTAL LOAD COMBINATION  CASES =     0  SO FAR.
 
      TEST                                                     -- PAGE NO.    3
@@ -95,18 +111,12 @@ INPUT FILE: D:\Semester 7\CVL756\Prog_Assignment\Hexagonal_frame_with_rigid_slab
    JOINT   FORCE-X   FORCE-Y     FORCE-Z     MOM-X     MOM-Y     MOM-Z
 
        1     10.00      0.00        0.00      0.00      0.00      0.00
-*WARNING- ZERO STIFFNESS IN DIRECTION 3 AT JOINT     13 EQN.NO.      21
-          LOADS APPLIED OR DISTRIBUTED HERE FROM ELEMENTS WILL BE IGNORED.
-          THIS MAY BE DUE TO ALL MEMBERS AT THIS JOINT BEING RELEASED OR
-          EFFECTIVELY RELEASED IN THIS DIRECTION.
-*WARNING- ZERO STIFFNESS IN DIRECTION 4 AT JOINT     13 EQN.NO.      22
-*WARNING- ZERO STIFFNESS IN DIRECTION 5 AT JOINT     13 EQN.NO.      23
 
 
 FOR LOADING -     1
 APPLIED JOINT EQUIVALENT LOADS
  JOINT   FORCE-X     FORCE-Y     FORCE-Z      MOM-X       MOM-Y       MOM-Z
-    13 1.00000E+01 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+     1 1.00000E+01 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
 
           STATIC LOAD/REACTION/EQUILIBRIUM SUMMARY FOR CASE NO.     1
           LOADTYPE LIVE  TITLE LL                                     
@@ -115,7 +125,7 @@ APPLIED JOINT EQUIVALENT LOADS
            CENTER OF FORCE BASED ON X FORCES ONLY (METE).
          (FORCES IN NON-GLOBAL DIRECTIONS WILL INVALIDATE RESULTS)
 
-                        X =  0.000000000E+00
+                        X = -0.999999996E+00
                         Y =  0.000000000E+00
                         Z =  0.199999999E+01
 TOTAL APPLIED LOAD     1
@@ -131,25 +141,25 @@ APPLIED JOINT EQUIVALENT LOADS
 TOTAL REACTION LOAD    1
 
    ***TOTAL REACTION LOAD( KN   METE ) SUMMARY (LOADING     1 )
-       SUMMATION FORCE-X =         -10.00
+       SUMMATION FORCE-X =          -9.99
        SUMMATION FORCE-Y =           0.00
-       SUMMATION FORCE-Z =           0.00
+       SUMMATION FORCE-Z =          -0.00
 
       SUMMATION OF MOMENTS AROUND THE ORIGIN-
-      MX=          -0.00  MY=         -20.00  MZ=           0.00
+      MX=          -0.01  MY=         -19.99  MZ=          -0.00
 
-     TEST                                                     -- PAGE NO.    4
-        
 
    MAXIMUM DISPLACEMENTS (  CM  /RADIANS) (LOADING      1)
              MAXIMUMS    AT NODE
-      X =  1.48382E-01       1
-      Y = -1.93733E-15       4
-      Z =  3.81328E-04       1
-      RX= -1.42024E-04       6
-      RY=  5.09574E-04       4
-      RZ= -1.93512E-17       1
+      X =  2.82449E-02       6
+      Y = -5.96023E-06       1
+      Z = -3.63650E-04       4
+      RX=  7.63614E-06       2
+      RY=  1.05763E-04       1
+      RZ=  2.98658E-08       2
 
+     TEST                                                     -- PAGE NO.    4
+        
 
 
    EXTERNAL AND INTERNAL JOINT LOAD SUMMARY ( KN   METE )-
@@ -158,60 +168,39 @@ APPLIED JOINT EQUIVALENT LOADS
           INT FX    INT FY    INT FZ     INT MX     INT MY     INT MZ
 
                                                                       SUPPORT=1
-     1      0.00      0.00      0.00       0.00       0.00       0.00
-           -1.43     -0.00      0.00       0.00      -0.00       0.00  000000
-
-     2      0.00      0.00      0.00       0.00       0.00       0.00
-           -1.79     -0.21     -0.00       0.00      -0.00       0.00  000000
-
-     3      0.00      0.00      0.00       0.00       0.00       0.00
-           -1.79      0.21      0.00      -0.00      -0.00       0.00  000000
-
-     4      0.00      0.00      0.00       0.00       0.00       0.00
-           -1.43      0.00      0.00       0.00      -0.00       0.00  000000
-
-     5      0.00      0.00      0.00       0.00       0.00       0.00
-           -1.79     -0.21      0.00      -0.00       0.00       0.00  000000
-
-     6      0.00      0.00      0.00       0.00       0.00       0.00
-           -1.79      0.21     -0.00      -0.00       0.00       0.00  000000
-
      7      0.00      0.00      0.00       0.00       0.00       0.00
-            1.43      0.00      2.99      -0.00       1.68      -0.00  111111
+            1.38     -0.00      3.59       0.00       1.66       0.00  111111
 
      8      0.00      0.00      0.00       0.00       0.00       0.00
-            1.79      0.21      1.50      -0.14       1.92      -0.00  111111
+            1.81      0.40      0.85      -0.19       1.95       0.00  111111
 
      9      0.00      0.00      0.00       0.00       0.00       0.00
-            1.79     -0.21     -1.50       0.14       1.92      -0.00  111111
+            1.81     -0.40     -0.85       0.19       1.95       0.00  111111
 
     10      0.00      0.00      0.00       0.00       0.00       0.00
-            1.43     -0.00     -2.99       0.00       1.68      -0.00  111111
+            1.38     -0.00     -3.59       0.00       1.66       0.00  111111
 
     11      0.00      0.00      0.00       0.00       0.00       0.00
-            1.79      0.21     -1.50      -0.14       1.92      -0.00  111111
+            1.81      0.40     -0.85      -0.19       1.95       0.00  111111
 
     12      0.00      0.00      0.00       0.00       0.00       0.00
-            1.79     -0.21      1.50       0.14       1.92      -0.00  111111
-
-    13     10.00      0.00      0.00       0.00       0.00       0.00
-            0.00      0.00      0.00       0.00       0.00       0.00  000000
+            1.81     -0.40      0.85       0.19       1.95       0.00  111111
 
 
 
    ************ END OF DATA FROM INTERNAL STORAGE ************
 
 
-    46. LOAD LIST 1
-    47. FINISH
-     TEST                                                     -- PAGE NO.    5
-        
+    58. LOAD LIST 1
+    59. FINISH
 
 
              *********** END OF THE STAAD.Pro RUN ***********         
 
-               **** DATE= NOV 24,2021   TIME= 13: 8:55 ****
+               **** DATE= NOV 24,2021   TIME= 23:14:45 ****
 
+     TEST                                                     -- PAGE NO.    5
+        
          ************************************************************
          *   For technical assistance on STAAD.Pro, please visit    *
          *   http://www.bentley.com/en/support/                     *

@@ -32,6 +32,6 @@
     <ConnectProjectName>
     </ConnectProjectName>
     <AnalysisStatus>Advanced Solver Results</AnalysisStatus>
-    <PromptForConnectedProjectInfo>True</PromptForConnectedProjectInfo>
+    <PromptForConnectedProjectInfo>False</PromptForConnectedProjectInfo>
   </Metadata>
 </File>

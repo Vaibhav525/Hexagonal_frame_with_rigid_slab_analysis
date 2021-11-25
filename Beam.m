@@ -30,10 +30,10 @@ classdef Beam <handle
             Ixx  (1,1) double=0.000048118
             Iyy  (1,1) double=0.000027283
             Izz  (1,1) double=0.000020835
-            alpha (1,1) double=0.0      %Rotation of y-z axis in beam local coordinate,
+            alpha (1,1) double=0      %Rotation of y-z axis in beam local coordinate,
             end
             
-            obj.L=norm(myN2.get_pos()-myN1.get_pos());
+            obj.L=abs(norm(myN2.get_pos()-myN1.get_pos()));
             obj.E=E;
             obj.A=A;
             obj.G=G;
@@ -101,11 +101,13 @@ classdef Beam <handle
                   
        
                     ];
+               
             end
             
             function K_g=get_global_K(obj)
                 K_l=obj.get_local_K();
-                K_g=obj.T'*(K_l*obj.T);
+                K_g=obj.T'*K_l*obj.T;
+               
             end
 
             function Disp=get_Disp(obj)
